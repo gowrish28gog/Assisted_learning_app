@@ -1,4 +1,5 @@
 import ollama
+import requests
 
 def generate_response(prompt: str, document: str, model: str = "llama3.2") -> str:
     """
@@ -15,10 +16,5 @@ def generate_response(prompt: str, document: str, model: str = "llama3.2") -> st
     
     return response['message']['content']
 
-# Example Usage
-if __name__ == "__main__":
-    doc_text = "Ollama is a local LLM runner that enables offline AI processing."
-    user_prompt = "What is Ollama?"
-    
-    result = generate_response(user_prompt, doc_text)
-    print(result)
+
+

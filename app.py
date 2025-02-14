@@ -4,6 +4,7 @@ from helpers.pdf_reader import extract_text_from_pdf
 from helpers.exa_search import perform_web_search
 
 
+
 # Streamlit UI setup
 st.set_page_config(page_title="PDF Q&A with Ollama", layout="centered")
 
@@ -13,8 +14,13 @@ st.write("Upload a PDF, select the question severity, and generate AI-generated 
 # File uploader
 uploaded_file = st.file_uploader("Upload your PDF", type=["pdf"])
 
+# Get the available Ollama models 
+
+
 # Dropdown to select question severity
 severity = st.selectbox("Select the severity of the questions:", ["Easy", "Medium", "Tough"])
+
+num_questions = st.number_input("Number of questions to generate:", min_value=1, max_value=20, value=5)
 
 # Prompt input for generating questions
 if severity == "Easy":
@@ -51,6 +57,28 @@ if st.button("Generate Questions"):
                 
                 st.subheader("Generated Questions:")
                 st.write(response)
+
+
+summary_prompt_file = "prompts/summary.txt"
+with open(summary_prompt_file, 'r') as file:
+    summary_prompt = file.read()
+
+if st.button("Generate Summary"):
+    if uploaded_file is None:
+        st.error("Please upload a PDF file.")
+    else:
+        with st.spinner("Generating summary..."):
+            extracted_text = extract_text_from_pdf(uploaded_file)
+            if not extracted_text:
+                st.error("No text could be extracted from the PDF.")
+            else:
+                summary = generate_response(summary_prompt, extracted_text)
+                st.subheader("Document Summary:")
+                st.write(summary)
+
+
+
+
 
 answers_file = "prompts/answers.txt"
 with open(answers_file, 'r') as file:
