@@ -17,6 +17,7 @@ This project aims to address the common challenges students face in processing s
 2. Quiz Generation (Model 2)
 
 * Input: Text notes or PDF files
+
 * Process: Based on the content of the study materials, the system generates context-specific questions based on the desired level (easy, medium or tough). This helps students self-assess their comprehension and reinforce their learning. 
 * Output: A set of personalized questions designed to test the student's understanding of the material. The students can then get the answers for those questions as well if they desire. We will add more features in the coming week.
 

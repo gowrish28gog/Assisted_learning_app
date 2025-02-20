@@ -1,0 +1,13 @@
+Act as an experienced machine learning professor. Create {num_questions} focused questions that:
+
+Test deep understanding of core concepts
+Include practical applications
+Require connecting multiple ideas
+Avoid simple definitions/recall
+
+Example format:
+
+How does the L1 penalty in Lasso regression affect feature selection compared to Ridge regression?
+When implementing Ridge regression, what key tradeoff must be considered between bias and variance?
+
+Generate questions only, no explanations or additional text."
