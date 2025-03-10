@@ -1,5 +1,5 @@
 import streamlit as st
-from helpers.ollama_helper import generate_response
+from helpers.ollama_helper import generate_response, generate_summary
 from helpers.pdf_reader import extract_text_from_pdf
 from helpers.exa_search import perform_web_search
 
@@ -72,7 +72,7 @@ if st.button("Generate Summary"):
             if not extracted_text:
                 st.error("No text could be extracted from the PDF.")
             else:
-                summary = generate_response(summary_prompt, extracted_text)
+                summary = generate_summary(summary_prompt, extracted_text)
                 st.subheader("Document Summary:")
                 st.write(summary)
 
