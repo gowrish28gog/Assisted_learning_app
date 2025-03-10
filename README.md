@@ -34,3 +34,11 @@ This project aims to address the common challenges students face in processing s
 ### Dataset Overview
 
 SQuAD v1.1 is a widely used benchmark dataset for evaluating machine learning models in the task of machine reading comprehension. It consists of over 100,000 question-answer pairs based on a diverse set of articles from the English Wikipedia. The dataset is designed to help train models in the task of extractive question answering, where the goal is to extract a precise span of text from a given context in response to a question.
+
+## Work in This Branch
+
+### Summarization Task
+
+* Model: Google Gemma 2.0 2B params
+
+* Prompt: Prompt for generating concise summary from the given text
