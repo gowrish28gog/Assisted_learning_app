@@ -8,31 +8,19 @@ This project aims to address the common challenges students face in processing s
 
 ## Project Flow
 
-1. Knowledge Retrieval (Model 1)
+Model 1 GEMMA: Summarisation
 
-* Input: Text notes or PDF files
-* Process: The system processes the provided study materials (notes or PDFs) and extracts key information using advanced language models.
-* Output: A detailed summary of the study material, highlighting the most relevant points for better understanding and quick review.
+– Input: Pre-processed Text or a PDF file.
 
-2. Quiz Generation (Model 2)
+– Output: Summary of the input
 
-* Input: Text notes or PDF files
-* Process: Based on the content of the study materials, the system generates context-specific questions. This helps students self-assess their comprehension and reinforce their learning.
-* Output: A set of personalized quiz questions designed to test the student's understanding of the material.
 
-## Dataset Information: SQuAD v1.1
+Model 2 LLaMA 3.2: Question-Answering Generation
 
-* Dataset Name: SQuAD v1.1 (Stanford Question Answering Dataset)
-* Source: SQuAD GitHub Repository
-* Format: JSON
-* Structure:
-  * Context: A passage or paragraph of text from which the questions are derived. Typically sourced from Wikipedia articles.
-  * Questions: A set of questions designed to test the reader's understanding of the context. These questions are paired with answers directly extracted from the context.
-  * Answers: The answer(s) to each corresponding question, typically a span of text extracted directly from the context.
+– Input: Pre-processed Text or a PDF file.
 
-### Dataset Overview
+– Output: Precise answers and questions generated based on context.
 
-SQuAD v1.1 is a widely used benchmark dataset for evaluating machine learning models in the task of machine reading comprehension. It consists of over 100,000 question-answer pairs based on a diverse set of articles from the English Wikipedia. The dataset is designed to help train models in the task of extractive question answering, where the goal is to extract a precise span of text from a given context in response to a question.
 
 ## What this branch contains?
 
@@ -43,3 +31,16 @@ As of now, my branch contains:
    a. Hugging Face transformer and,
    
    b. Exa search for web search asked by the user
+
+
+March 10 2025, Iteration 3 submission:
+
+3. Updated prompts for better question generation.
+
+4. Added level of education and questions are being generated according to it.
+   
+5. Answer button will only appear once the questions are generated.
+   
+6. Number of questions to generate was hard coded to 5. Changed it.
+   
+7. Added a text box for input along with PDF file. Text box will disable if a file is uploaded.
