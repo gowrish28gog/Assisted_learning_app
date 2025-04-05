@@ -1,0 +1,29 @@
+# Hugging Face libraries
+transformers
+datasets
+tokenizers
+
+# Ollama (if using locally)
+ollama
+
+# ChromaDB for vector storage
+chromadb
+
+# NLP and PDF processing
+nltk
+pypdf
+
+# Streamlit for UI
+streamlit
+
+# OpenAI API
+openai
+
+# Pydantic for response models
+pydantic
+
+# Additional dependencies that might be useful
+tqdm
+numpy
+pandas
+scipy

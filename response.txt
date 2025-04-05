@@ -1,0 +1,301 @@
+Title: 
+URL: https://arxiv.org/pdf/1811.12808
+ID: https://arxiv.org/pdf/1811.12808
+Score: None
+Published Date: None
+Author: 
+Image: None
+Favicon: None
+Extras: None
+Subpages: None
+Text: Model Evaluation, Model Selection, and Algorithm
+Selection in Machine Learning
+Sebastian Raschka
+University of Wisconsin–Madison
+Department of Statistics
+November 2018
+sraschka@wisc.edu
+Abstract
+The correct use of model evaluation, model selection, and algorithm selection
+techniques is vital in academic machine learning research as well as in many
+industrial settings. This article reviews different techniques that can be used for
+each of these three subtasks and discusses the main advantages and disadvantages
+of each technique with references to theoretical and empirical studies. Further,
+recommendations are given to encourage best yet feasible practices in research and
+applications of machine learning. Common methods such as the holdout method
+for model evaluation and selection are covered, which are not recommended
+when working with small datasets. Different flavors of the bootstrap technique
+are introduced for estimating the uncertainty of performance estimates, as an
+alternative to confidence intervals via normal approximation if bootstrapping is
+computationally feasible. Common cross-validation techniques such as leave-oneout cross-validation and k-fold cross-validation are reviewed, the bias-variance
+trade-off for choosing k is discussed, and practical tips for the optimal choice of
+k are given based on empirical evidence. Different statistical tests for algorithm
+comparisons are presented, and strategies for dealing with multiple comparisons
+such as omnibus tests and multiple-comparison corrections are discussed. Finally,
+alternative methods for algorithm selection, such as the combined F-test 5x2 crossvalidation and nested cross-validation, are recommended for comparing machine
+learning algorithms when datasets are small.
+arXiv:1811.12808v3 [cs.LG] 11 Nov 2020
+Contents
+1 Introduction: Essential Model Evaluation Terms and Techniques 4
+1.1 Performance Estimation: Generalization Performance vs. Model Selection . . . . . 4
+1.2 Assumptions and Terminology . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+1.3 Resubstitution Validation and the Holdout Method . . . . . . . . . . . . . . . . . . 7
+1.4 Stratification . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+1.5 Holdout Validation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+1.6 Pessimistic Bias . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+1.7 Confidence Intervals via Normal Approximation . . . . . . . . . . . . . . . . . . . 10
+2 Bootstrapping and Uncertainties 11
+2.1 Overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+2.2 Resampling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+2.3 Repeated Holdout Validation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+2.4 The Bootstrap Method and Empirical Confidence Intervals . . . . . . . . . . . . . 15
+3 Cross-validation and Hyperparameter Optimization 20
+3.1 Overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+3.2 About Hyperparameters and Model Selection . . . . . . . . . . . . . . . . . . . . 21
+3.3 The Three-Way Holdout Method for Hyperparameter Tuning . . . . . . . . . . . . 22
+3.4 Introduction to k-fold Cross-Validation . . . . . . . . . . . . . . . . . . . . . . . . 24
+3.5 Special Cases: 2-Fold and Leave-One-Out Cross-Validation . . . . . . . . . . . . . 26
+3.6 k-fold Cross-Validation and the Bias-Variance Trade-off . . . . . . . . . . . . . . 28
+3.7 Model Selection via k-fold Cross-Validation . . . . . . . . . . . . . . . . . . . . . 30
+3.8 A Note About Model Selection and Large Datasets . . . . . . . . . . . . . . . . . 30
+3.9 A Note About Feature Selection During Model Selection . . . . . . . . . . . . . . 30
+3.10 The Law of Parsimony . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+3.11 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33
+4 Algorithm Comparison 34
+4.1 Overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 34
+4.2 Testing the Difference of Proportions . . . . . . . . . . . . . . . . . . . . . . . . . 34
+4.3 Comparing Two Models with the McNemar Test . . . . . . . . . . . . . . . . . . . 35
+4.4 Exact p-Values via the Binomial Test . . . . . . . . . . . . . . . . . . . . . . . . . 37
+4.5 Multiple Hypotheses Testing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
+4.6 Cochran’s Q Test for Comparing the Performance of Multiple Classifiers . . . . . . 39
+4.7 The F-test for Comparing Multiple Classifiers . . . . . . . . . . . . . . . . . . . . 41
+4.8 Comparing Algorithms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
+4.9 Resampled Paired t-Test . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 43
+4.10 k-fold Cross-validated Paired t-Test . . . . . . . . . . . . . . . . . . . . . . . . . 44
+2
+4.11 Dietterich’s 5x2-Fold Cross-Validated Paired t-Test . . . . . . . . . . . . . . . . . 44
+4.12 Alpaydin’s Combined 5x2cv F-test . . . . . . . . . . . . . . . . . . . . . . . . . 45
+4.13 Effect size . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 45
+4.14 Nested Cross-Validation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 45
+4.15 Conclusions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46
+4.16 Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 48
+3
+1 Introduction: Essential Model Evaluation Terms and Techniques
+Machine learning has become a central part of our life – as consumers, customers, and hopefully
+as researchers and practitioners. Whether we are applying predictive modeling techniques to our
+research or business problems, I believe we have one thing in common: We want to make "good"
+predictions. Fitting a model to our training data is one thing, but how do we know that it generalizes
+well to unseen data? How do we know that it does not simply memorize the data we fed it and fails to
+make good predictions on future samples, samples that it has not seen before? And how do we select
+a good model in the first place? Maybe a different learning algorithm could be better-suited for the
+problem at hand?
+Model evaluation is certainly not just the end point of our machine learning pipeline. Before we
+handle any data, we want to plan ahead and use techniques that are suited for our purposes. In this
+article, we will go over a selection of these techniques, and we will see how they fit into the bigger
+picture, a typical machine learning workflow.
+1.1 Performance Estimation: Generalization Performance vs. Model Selection
+Let us consider the obvious question, "How do we estimate the performance of a machine learning
+model?" A typical answer to this question might be as follows: "First, we feed the training data
+to our learning algorithm to learn a model. Second, we predict the labels of our test set. Third,
+we count the number of wrong predictions on the test dataset to compute the model’s prediction
+accuracy." Depending on our goal, however, estimating the performance of a model is not that trivial,
+unfortunately. Maybe we should address the previous question from a different angle: "Why do we
+care about performance estimates at all?" Ideally, the estimated performance of a model tells how
+well it performs on unseen data – making predictions on future data is often the main problem we
+want to solve in applications of machine learning or the development of new algorithms. Typically,
+machine learning involves a lot of experimentation, though – for example, the tuning of the internal
+knobs of a learning algorithm, the so-called hyperparameters. Running a learning algorithm over a
+training dataset with different hyperparameter settings will result in different models. Since we are
+typically interested in selecting the best-performing model from this set, we need to find a way to
+estimate their respective performances in order to rank them against each other.
+Going one step beyond mere algorithm fine-tuning, we are usually not only experimenting with
+the one single algorithm that we think would be the "best solution" under the given circumstances.
+More often than not, we want to compare different algorithms to each other, oftentimes in terms of
+predictive and computational performance. Let us summarize the main points why we evaluate the
+predictive performance of a model:
+1. We want to estimate the generalization performance, the predictive performance of our
+model on future (unseen) data.
+2. We want to increase the predictive performance by tweaking the learning algorithm and
+selecting the best performing model from a given hypothesis space.
+3. We want to identify the machine learning algorithm that is best-suited for the problem at
+hand; thus, we want to compare different algorithms, selecting the best-performing one as
+well as the best performing model from the algorithm’s hypothesis space.
+Although these three sub-tasks listed above have all in common that we want to estimate the
+performance of a model, they all require different approaches. We will discuss some of the different
+methods for tackling these sub-tasks in this article.
+Of course, we want to estimate the future performance of a model as accurately as possible. However,
+we shall note that biased performance estimates are perfectly okay in model selection and algorithm
+selection if the bias affects all models equally. If we rank different models or algorithms against each
+other in order to select the best-performing one, we only need to know their "relative" performance.
+For example, if all performance estimates are pessimistically biased, and we underestimate their
+performances by 10%, it will not affect the ranking order. More concretely, if we obtaind three
+models with prediction accuracy estimates such as
+M2: 75% > M1: 70% > M3: 65%,
+4
+we would still rank them the same way if we added a 10% pessimistic bias:
+M2: 65% > M1: 60% > M3: 55%.
+However, note that if we reported the generalization (future prediction) accuracy of the best ranked
+model (M2) to be 65%, this would obviously be quite inaccurate. Estimating the absolute performance
+of a model is probably one of the most challenging tasks in machine learning.
+1.2 Assumptions and Terminology
+Model evaluation is certainly a complex topic. To make sure that we do not diverge too much from
+the core message, let us make certain assumptions and go over some of the technical terms that we
+will use throughout this article.
+i.i.d. We assume that the training examples are i.i.d (independent and identically distributed), which
+means that all examples have been drawn from the same probability distribution and are statistically
+independent from each other. A scenario where training examples are not independent would be
+working with temporal data or time-series data.
+Supervised learning and classification. This article focusses on supervised learning, a subcategory
+of machine learning where the target values are known in a given dataset. Although many concepts
+also apply to regression analysis, we will focus on classification, the assignment of categorical target
+labels to the training and test examples.
+0-1 loss and prediction accuracy. In the following article, we will focus on the prediction accuracy,
+which is defined as the number of all correct predictions divided by the number of examples in the
+dataset. We compute the prediction accuracy as the number of correct predictions divided by the
+number of examples n. Or in more formal terms, we define the prediction accuracy ACC as
+ACC = 1 − ERR, (1)
+where the prediction error, ERR, is computed as the expected value of the 0-1 loss over n examples
+in a dataset S:
+ERRS =
+1
+n
+Xn
+i=1
+L( ˆyi, yi). (2)
+The 0-1 loss L(·) is defined as
+L( ˆyi, yi) =
+
+
+
+0 if yˆi = yi
+1 if yˆi 6= yi,
+(3)
+where yiis the ith true class label and yˆithe ith predicted class label, respectively. Our objective is to
+learn a model h that has a good generalization performance. Such a model maximizes the prediction
+accuracy or, vice versa, minimizes the probability, C(h), of making a wrong prediction:
+C(h) = Pr
+(x,y)∼D
+[h(x) 6= y]. (4)
+Here, D is the generating distribution the dataset has been drawn from, x is the feature vector of a
+training example with class label y.
+Lastly, since this article mostly refers to the prediction accuracy (instead of the error), we define
+Kronecker’s Delta function:
+δ
+L( ˆyi, yi)
+
+= 1 − L( ˆyi, yi), (5)
+5
+such that
+δ
+L( ˆyi, yi)
+
+= 1 if yˆi = yi (6)
+and
+δ
+L( ˆyi, yi)
+
+= 0 if yˆi 6= yi. (7)
+Bias. Throughout this article, the term bias refers to the statistical bias (in contrast to the bias in a
+machine learning system). In general terms, the bias of an estimator βˆ is the difference between its
+expected value E[βˆ] and the true value of a parameter β being estimated:
+Bias = E[βˆ] − β. (8)
+Thus, if Bias = E[βˆ] − β = 0, then βˆ is an unbiased estimator of β. More concretely, we compute
+the prediction bias as the difference between the expected prediction accuracy of a model and its
+true prediction accuracy. For example, if we computed the prediction accuracy on the training set,
+this would be an optimistically biased estimate of the absolute accuracy of a model since it would
+overestimate its true accuracy.
+Variance. The variance is simply the statistical variance of the estimator βˆ and its expected value
+E[
+ˆβ], for instance, the squared difference of the :
+Variance = E
+h
+βˆ − E[βˆ]
+2
+i
+. (9)
+The variance is a measure of the variability of a model’s predictions if we repeat the learning process
+multiple times with small fluctuations in the training set. The more sensitive the model-building
+process is towards these fluctuations, the higher the variance.1
+Finally, let us disambiguate the terms model, hypothesis, classifier, learning algorithms, and parameters:
+Target function. In predictive modeling, we are typically interested in modeling a particular
+process; we want to learn or approximate a specific, unknown function. The target function f(x) = y
+is the true function f(·) that we want to model.
+Hypothesis. A hypothesis is a certain function that we believe (or hope) is similar to the true
+function, the target function f(·) that we want to model. In context of spam classification, it would
+be a classification rule we came up with that allows us to separate spam from non-spam emails.
+Model. In the machine learning field, the terms hypothesis and model are often used interchangeably.
+In other sciences, these terms can have different meanings: A hypothesis could be the "educated
+guess" by the scientist, and the model would be the manifestation of this guess to test this hypothesis.
+Learning algorithm. Again, our goal is to find or approximate the target function, and the learning
+algorithm is a set of instructions that tried to model the target function using a training dataset. A
+learning algorithm comes with a hypothesis space, the set of possible hypotheses it can explore to
+model the unknown target function by formulating the final hypothesis.
+1
+For a more detailed explanation of the bias-variance decomposition of loss functions, and how
+high variance relates to overfitting and high bias relates to underfitting, please see my lecture notes I
+made available at https://github.com/rasbt/stat479-machine-learning-fs18/blob/master/08_
+eval-intro/08_eval-intro_notes.pdf.
+6
+Hyperparameters. Hyperparameters are the tuning parameters of a machine learning algorithm –
+for example, the regularization strength of an L2 penalty in the loss function of logistic regression, or
+a value for setting the maximum depth of a decision tree classifier. In contrast, model parameters
+are the parameters that a learning algorithm fits to the training data – the parameters of the model
+itself. For example, the weight coefficients (or slope) of a linear regression line and its bias term
+(here: y-axis intercept) are model parameters.
+1.3 Resubstitution Validation and the Holdout Method
+The holdout method is inarguably the simplest model evaluation technique; it can be summarized as
+follows. First, we take a labeled dataset and split it into two parts: A training and a test set. Then, we
+fit a model to the training data and predict the labels of the test set. The fraction of correct predictions,
+which can be computed by comparing the predicted labels to the ground truth labels of the test set,
+constitutes our estimate of the model’s prediction accuracy. Here, it is important to note that we
+do not want to train and evaluate a model on the same training dataset (this is called resubstitution
+validation or resubstitution evaluation), since it would typically introduce a very optimistic bias due
+to overfitting. In other words, we cannot tell whether the model simply memorized the training data,
+or whether it generalizes well to new, unseen data. (On a side note, we can estimate this so-called
+optimism bias as the difference between the training and test accuracy.)
+Typically, the splitting of a dataset into training and test sets is a simple process of random subsampling. We assume that all data points have been drawn from the same probability distribution (with
+respect to each class). And we randomly choose 2/3 of these samples for the training set and 1/3
+of the samples for the test set. Note that there are two problems with this approach, which we will
+discuss in the next sections.
+1.4 Stratification
+We have to keep in mind that a dataset represents a random sample drawn from a probability
+distribution, and we typically assume that this sample is representative of the true population – more
+or less. Now, further subsampling without replacement alters the statistic (mean, proportion, and
+variance) of the sample. The degree to which subsampling without replacement affects the statistic of
+a sample is inversely proportional to the size of the sample. Let us have a look at an example using
+the Iris dataset 2, which we randomly divide into 2/3 training data and 1/3 test data as illustrated in
+Figure 1. (The source code for generating this graphic is available on GitHub3.)
+When we randomly divide a labeled dataset into training and test sets, we violate the assumption
+of statistical independence. The Iris datasets consists of 50 Setosa, 50 Versicolor, and 50 Virginica
+flowers; the flower species are distributed uniformly:
+• 33.3% Setosa
+• 33.3% Versicolor
+• 33.3% Virginica
+If a random function assigns 2/3 of the flowers (100) to the training set and 1/3 of the flowers (50) to
+the test set, it may yield the following (also shown in Figure 1):
+• training set → 38 × Setosa, 28 × Versicolor, 34 × Virginica
+• test set → 12 × Setosa, 22 × Versicolor, 16 × Virginica
+Assuming that the Iris dataset is representative of the true population (for instance, assuming that
+iris flower species are distributed uniformly in nature), we just created two imbalanced datasets with
+non-uniform class distributions. The class ratio that the learning algorithm uses to learn the model
+is "38% / 28% / 34%." The test dataset that is used for evaluating the model is imbalanced as well,
+and even worse, it is balanced in the "opposite" direction: "24% / 44% / 32%." Unless the learning
+algorithm is completely insensitive to these perturbations, this is certainly not ideal. The problem
+becomes even worse if a dataset has a high class imbalance upfront, prior to the random subsampling.
+2
+https://archive.ics.uci.edu/ml/datasets/iris
+3
+https://github.com/rasbt/model-eval-article-supplementary/blob/master/code/iris-random-dist.ipynb
+7
+Dataset before splitting (n = 150)
+Test dataset (n = 50)
+This work by Sebastian Raschka is licensed under a
+Creative Commons Attribution 4.0 International License.
+Sepal Length [cm]
+Training dataset (n = 100)
+Sepal Length [cm]
+Figure 1: Distribution of Iris flower classes upon random subsampling into training and test sets.
+In the worst-case scenar
+Highlights: None
+Highlight Scores: None
+Summary: None
