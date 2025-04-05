@@ -3,129 +3,117 @@ from helpers.ollama_helper import generate_response
 from helpers.pdf_reader import extract_text_from_pdf
 from helpers.exa_search import perform_web_search
 
-
-
 # Streamlit UI setup
-st.set_page_config(page_title="PDF Q&A with Ollama", layout="centered")
+st.set_page_config(page_title="PDF & Text Q&A with Ollama", layout="centered")
 
-st.title("📄 PDF Q&A with Ollama")
-st.write("Upload a PDF, select the question severity, and generate AI-generated questions and answers!")
+st.title("📄 PDF & Text Q&A with Ollama")
+st.write("Upload a PDF **or** enter text manually to generate AI-generated questions and answers!")
 
-# File uploader
+# File uploader and text box input
 uploaded_file = st.file_uploader("Upload your PDF", type=["pdf"])
 
-# Get the available Ollama models 
+# Disable text input if a file is uploaded
+text_disabled = uploaded_file is not None
 
+# Text input box (Disabled if file is uploaded)
+user_text_input = st.text_area("Or enter text manually:", "",height=200, disabled=text_disabled)
+
+#uploaded_file_disabled = user_text_input is not None
+
+if uploaded_file or user_text_input.strip():
+    # Extract text from PDF or use manual input
+    extracted_text = "Extracted text from PDF" if uploaded_file else user_text_input
+
+
+# Dropdown to select education level
+level = st.selectbox("Select your education level:", ['High School', 'Bachelors', 'Masters', 'PhD'])
 
 # Dropdown to select question severity
 severity = st.selectbox("Select the severity of the questions:", ["Easy", "Medium", "Tough"])
 
+# Number of questions to generate
 num_questions = st.number_input("Number of questions to generate:", min_value=1, max_value=20, value=5)
 
-# Prompt input for generating questions
-if severity == "Easy":
-    prompt_file = "prompts/easy_questions.txt"
-elif severity == "Medium":
-    prompt_file = "prompts/medium_questions.txt"
-else:
-    prompt_file = "prompts/tough_questions.txt"
-
-# Read the selected prompt from the file
+# Determine which prompt file to use
+prompt_file = f"prompts/{severity.lower()}_questions.txt"
 with open(prompt_file, 'r') as file:
     question_prompt = file.read()
 
-# Submit button to generate questions
-if st.button("Generate Questions"):
-    if uploaded_file is None:
-        st.error("Please upload a PDF file.")
-    else:
+# Function to get text from either PDF or text box
+def get_input_text():
+    if uploaded_file is not None:
         with st.spinner("Extracting text from PDF..."):
-            extracted_text = extract_text_from_pdf(uploaded_file)
-        
-        if not extracted_text:
-            st.error("No text could be extracted from the PDF.")
-        else:
-            # Generate the questions based on the prompt
-            with st.spinner("Generating questions..."):
-                # Modify the prompt to include the number of questions to generate
-                num_questions = 5  # Adjust this as needed
-                formatted_prompt = question_prompt.format(num_questions=num_questions)
+            return extract_text_from_pdf(uploaded_file)
+    elif user_text_input.strip():
+        return user_text_input.strip()
+    else:
+        return None
 
-                # Store the generated questions in session state
-                response = generate_response(formatted_prompt, extracted_text)
-                st.session_state['questions'] = response
-                
-                st.subheader("Generated Questions:")
-                st.write(response)
+# Generate Questions
+if st.button("Generate Questions"):
+    extracted_text = get_input_text()
+    
+    if extracted_text is None:
+        st.error("Please upload a PDF or enter text manually.")
+    else:
+        with st.spinner("Generating questions..."):
+            formatted_prompt = question_prompt.format(num_questions=num_questions, level=level)
+            response = generate_response(formatted_prompt, extracted_text)
+            st.session_state['questions'] = response
 
+            st.subheader("Generated Questions:")
+            st.write(response)
 
+# Answer Generation Section
+answers_file = "prompts/answers.txt"
+with open(answers_file, 'r') as file:
+    answer_prompt = file.read()
+
+if 'questions' in st.session_state and st.session_state['questions']:
+    if st.button("Generate Answers"):
+        extracted_text = get_input_text()
+        st.subheader("Generated Answers:")
+
+        questions_list = [q.strip() for q in st.session_state['questions'].split("\n") if q.strip()]
+
+        for idx, question in enumerate(questions_list):
+            with st.spinner(f"Generating answer for question {idx + 1}..."):
+                prompt_for_question = f"{answer_prompt}\n{question}"
+                try:
+                    answer = generate_response(prompt_for_question, extracted_text)
+                except Exception as e:
+                    answer = f"Error generating answer: {str(e)}"
+
+            st.write(f"**Q: {question}**")
+            st.write(f"**Answer: {answer}**")
+            st.write("")  # Spacing for readability
+
+# Summary Generation Section
 summary_prompt_file = "prompts/summary.txt"
 with open(summary_prompt_file, 'r') as file:
     summary_prompt = file.read()
 
 if st.button("Generate Summary"):
-    if uploaded_file is None:
-        st.error("Please upload a PDF file.")
+    extracted_text = get_input_text()
+    
+    if extracted_text is None:
+        st.error("Please upload a PDF or enter text manually.")
     else:
         with st.spinner("Generating summary..."):
-            extracted_text = extract_text_from_pdf(uploaded_file)
-            if not extracted_text:
-                st.error("No text could be extracted from the PDF.")
-            else:
-                summary = generate_response(summary_prompt, extracted_text)
-                st.subheader("Document Summary:")
-                st.write(summary)
+            summary = generate_response(summary_prompt, extracted_text)
+            st.subheader("Document Summary:")
+            st.write(summary)
 
-
-
-
-
-answers_file = "prompts/answers.txt"
-with open(answers_file, 'r') as file:
-    answer_prompt = file.read()
-
-# Section to generate answers for the generated questions
-if st.button("Generate Answers"):
-    if 'questions' in st.session_state and st.session_state['questions']:
-        st.subheader("Generated Answers:")
-        extracted_text = extract_text_from_pdf(uploaded_file)
-        # Loop through the generated questions and get answers for each one
-        questions_list = st.session_state['questions'].split("\n")
-        
-        for idx, question in enumerate(questions_list):
-            if question.strip():  # Ensure the question is not empty
-                with st.spinner(f"Generating answer for question {idx + 1}..."):
-                    # Generate an answer for the question
-                    prompt_for_question = f"{answer_prompt}\n{question}"
-                    try:
-                        # Generate an answer for the question
-                        answer = generate_response(prompt_for_question, extracted_text)
-                    except Exception as e:
-                        answer = f"Error generating answer: {str(e)}"
-                
-                # Display the answer
-                st.write(f"**Q{idx + 1}:** {question}")
-                st.write(f"**A{idx + 1}:** {answer}")
-                st.write("\n")
-
-
-
-# Streamlit interface
+# Web Search Section
 st.subheader("Need assistance with a topic?")
 user_topic = st.text_input("Enter a topic or question you'd like help with:")
 
-# Perform web search for articles or YouTube links
 if user_topic:
     search_option = st.selectbox("Where would you like to search?", ["Articles", "YouTube"])
 
-    # Button to perform web search
     if st.button("Generate Web Search"):
         try:
-            if search_option == "Articles":
-                prompt = f"Articles about {user_topic}"
-            elif search_option == "YouTube":
-                prompt = f"YouTube links about {user_topic}"
-
+            prompt = f"{search_option} about {user_topic}"
             parsed_results = perform_web_search(prompt)
             
             if parsed_results:
