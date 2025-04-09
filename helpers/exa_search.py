@@ -3,6 +3,10 @@ from dotenv import load_dotenv
 import os
 import streamlit as st
 
+EXA_API_KEY=''
+
+
+# Function to perform web search for given URL
 
 def perform_web_search(prompt: str):
     """
@@ -22,17 +26,13 @@ def perform_web_search(prompt: str):
     # Load environment variables from .env file
     load_dotenv()
 
+    api_key = EXA_API_KEY
+
     # Get the API key from environment variables
-    api_key = os.getenv("EXA_API_KEY")
+    # api_key = os.getenv("EXA_API_KEY")
 
     # Initialize Exa with the loaded API key
     exa = Exa(api_key=api_key)
-
-    # Perform the search using Exa API
-    # Use the prompt to search for relevant articles
-    # and set the type to 'neural' for neural search
-    # Set use_autoprompt to True to enable autoprompting
-    # Set the max_results to 5 to limit the number of results
     result = exa.search(
         prompt,
         type="neural",
@@ -40,8 +40,7 @@ def perform_web_search(prompt: str):
     )
     
     # Inspect the structure of the result object
-    st.write(result)  
-    # This will output the raw result so you can inspect it
+    st.write(result)  # This will output the raw result so you can inspect it
     
     try:
         # Access the 'results' list directly from the 'result' object
@@ -55,18 +54,15 @@ def perform_web_search(prompt: str):
             'published_date': r.published_date if hasattr(r, 'published_date') else 'No Date'  # Check for 'published_date'
         } for r in results]
         
-        return parsed_results  # List of dictionaries with parsed results
+        return parsed_results
     
-    # Handle the case where 'results' is not present or is empty
     except Exception as e:
         st.error(f"Error parsing search results: {str(e)}")
         return []
     
 
-## Function to extract text from a list of URLs using the Exa API
-# This function uses the Exa API to extract text content from the provided URLs.
-# It returns the extracted text content as a string.
-# The function requires the Exa API key to be set in the environment variables.
+# Function to extract text from a list of URLs using the Exa API
+
 def extract_text_from_exa(urls):
     """
     Extracts full page text content from a list of URLs using the Exa API.
@@ -81,8 +77,7 @@ def extract_text_from_exa(urls):
     # Load environment variables from .env file
     load_dotenv()
 
-    # Get the API key from environment variables
-    api_key = os.getenv("EXA_API_KEY")
+    api_key = EXA_API_KEY
 
     # Initialize Exa with the loaded API key
     exa = Exa(api_key=api_key)
@@ -95,14 +90,14 @@ def extract_text_from_exa(urls):
         }
     )
     
-    # Inspect the structure of the response objec
-    if response.status_code == 200:
-        st.write("Response received successfully.")
-    else:
-        st.error(f"Failed to fetch content. Status code: {response.status_code}")
-   
-    # Check if the response contains 'text' and 'subpages' keys
-    return str(response) 
-
-
-
+    try:
+        if hasattr(response, "results") and response.results:
+            # for result in response.results:
+            #     st.write(f"Title: {result.title}")
+            #     st.write(f"URL: {result.url}")
+            #     st.write(f"Text Content: {getattr(result, 'text', 'No text available')}")
+            return str(response)  # or whatever structure you want to return
+        else:
+            st.error("No results found in response.")
+    except Exception as e:
+        st.error(f"Error while parsing response: {e}")
