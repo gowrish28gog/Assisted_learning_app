@@ -58,7 +58,7 @@ Make sure the following are set up before you begin:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/personalized-learning-assistant.git
+git clone https://github.com/gowrish28gog/Assisted_learning_app.git
 cd personalized-learning-assistant
 ```
 
@@ -84,7 +84,7 @@ Download the required models:
 
 ```bash
 ollama pull llama3.2
-ollama pull gemma
+ollama pull gemma2:2b
 ```
 
 ### 4. Set API Keys
@@ -109,7 +109,8 @@ Visit `http://localhost:8501` in your browser.
 
 ## ✨ Features
 
-- 📄 **PDF/Text Upload**: Process your documents with ease  
+- 📄 **PDF/Text Upload**: Process all of your documents (.docx, .pptx, .pdf) with ease
+- 🌍 **Web Data Extraction**: Extract and process data directly from any web URL  
 - ✍️ **Smart Summarization**: Use GEMMA to condense content  
 - ❓ **Question Generation**: Get context-based Q&A from LLaMA 3.2  
 - 🗣️ **Voice Interaction**: Learn via natural speech (Eleven Labs)  
