@@ -7,7 +7,7 @@ tokenizers
 ollama
 
 # ChromaDB for vector storage
-chromadb
+# chromadb
 
 # NLP and PDF processing
 nltk
@@ -19,8 +19,25 @@ streamlit
 # OpenAI API
 openai
 
+# Elevenlabs for text to speech
+uuid
+dotenv
+elevenlabs
+
+# Exa for web search
+exa_py
+
+# ConvertAPI to convert files to PDF and extract text
+python-docx
+python-pptx
+convertapi
+
 # Pydantic for response models
 pydantic
+
+# Evaluation
+evaluate
+rouge_score
 
 # Additional dependencies that might be useful
 tqdm

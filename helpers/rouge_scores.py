@@ -1,6 +1,8 @@
 from rouge_score import rouge_scorer
 
-# Define the reference text and two different summaries
+
+# Define the reference text
+
 reference_text = """
 Linear regression is one of the most fundamental and widely used techniques in statistical
 modeling and machine learning. It is used to model the relationship between a dependent
@@ -35,9 +37,15 @@ regression techniques (such as polynomial regression, ridge regression, or LASSO
 more appropriate.
 """
 
+
+# Summary from T5 model
+
 summary_t5 = """
 Linear regression is a powerful tool, but it has limitations.
 """
+
+
+# Summary from Gemma 2 model
 
 summary_gemma2 = """
 Linear regression is a statistical technique used to model the relationship between variables. Its goal is to find the best-fitting line (in simple linear regression) or weighted sum of features (in multiple linear regression) that minimizes the difference between predicted and actual values.
@@ -56,6 +64,7 @@ Linear regression works under certain assumptions: linear relationship between v
 Failure to meet these assumptions can lead to model misrepresentation and incorrect conclusions. In such cases, other techniques like polynomial regression or regularization methods may be more suitable.
 In conclusion: Linear regression is a powerful tool for modeling relationships between variables but needs to be used carefully and with awareness of its limitations. Understanding key concepts, assumptions, metrics, and potential alternative approaches will help in utilizing this technique effectively.
 """
+
 
 # Create a ROUGE scorer object
 scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
