@@ -1,90 +1,95 @@
 # AI Personalized Learning Assistant
 
-An LLM-based learning assistant that helps students understand and retain materials better by generating contextually relevant questions and summaries.
+An intelligent learning companion powered by large language models (LLMs) that helps students absorb and retain material by generating summaries and context-aware questions.
 
-## Overview
+## 📘 Overview
 
-This project combines various AI technologies to create an assisted learning system powered by large language models (LLMs) that simplifies the process of generating study materials. The platform allows users to upload text or PDF files, which are then processed to generate contextually relevant questions and summaries to enhance the learning experience.
+This project brings together cutting-edge AI technologies to build a personalized learning system. Users can upload PDFs or text documents, and the platform will automatically generate concise summaries and context-relevant questions—turning study materials into interactive learning experiences.
 
-## Motivation
+## 🎯 Motivation
 
-The primary objective of this project is to create an assisted learning system powered by large language models (LLMs) that simplifies the process of generating study materials. The platform allows users to upload text or PDF files, which are then processed to generate contextually relevant questions and summaries. This tool aims to enhance the learning experience by providing tailored educational content, fostering better comprehension and engagement.
+Creating high-quality study materials takes time and effort. This assistant aims to automate that process using LLMs, helping students understand content more deeply while saving time. By tailoring educational outputs to each user, the platform encourages better comprehension, retention, and engagement.
 
-## Significance
+## 🌟 Key Benefits
 
-* Reduces the time and effort required to create study materials
-* Enhances accessibility to tailored educational content
-* Provides personalized learning experiences
-* Increases student engagement and comprehension
+- Automatically generates learning content from existing documents  
+- Enhances access to personalized study material  
+- Boosts engagement through voice and interactive features  
+- Promotes better understanding with tailored summaries and questions  
 
-## Project Flow
+## 🔄 Project Workflow
 
-The chosen methodology is designed to address the challenges of creating personalized study materials efficiently. By employing GEMMA for summarization and LLAMA 3.2 for question generation, the system ensures high-quality outputs tailored to the user's needs.
+The system uses a structured pipeline to deliver accurate summaries and questions, utilizing:
+
+- **GEMMA** for summarization  
+- **LLaMA 3.2** for generating context-based questions  
+
+### Step-by-Step Process
 
 1. **Data Preprocessing**
-   * Load and preprocess the given input using NLP techniques
-   * Extract text from uploaded PDFs using pypdf if necessary
-   * Tokenize the dataset to prepare inputs for LLMs
+   - Extract text from PDFs using `pypdf`
+   - Apply NLP techniques to clean and tokenize text
 
-2. **Context and QA Pipeline**
-   * **Model 1 (GEMMA)**: Summarization
-     * Input: Pre-processed Text or a PDF file
-     * Output: Summary of the input
-   * **Model 2 (LLaMA 3.2)**: Question-Answering Generation
-     * Input: Pre-processed Text or a PDF file
-     * Output: Precise answers and questions generated based on context
+2. **Model Pipeline**
+   - **Summarization (GEMMA)**: Produces concise summaries
+   - **Question Generation (LLaMA 3.2)**: Creates relevant questions and answers based on context
 
 3. **Evaluation**
-   * Metrics: Use ROUGE score to determine how the model is performing for generating summaries
-   * Using human as a judge to see the quality of questions generated
+   - **Summaries**: Evaluated using ROUGE score
+   - **Questions**: Assessed through human judgment
 
 4. **Deployment**
-   * Build a user-friendly interface using Streamlit for interactive input, knowledge retrieval, question and summary generation
+   - Streamlit-based user interface for uploading documents and viewing output
 
-## Prerequisites
+## 🛠️ Prerequisites
 
-Before you begin, ensure you have:
-- Python 3.8 or higher installed
-- Git installed
-- Accounts with the following services:
-  - [Exa](https://exa.ai/) for advanced web search capabilities
-  - [ConvertAPI](https://www.convertapi.com/) for document conversion
-  - [Eleven Labs](https://elevenlabs.io/) for text-to-speech
-  - [Ollama](https://ollama.ai/) for running local AI models
+Make sure the following are set up before you begin:
 
-## Installation
+- Python 3.8+
+- Git
+- API access for:
+  - [Exa](https://exa.ai/) – for web-based knowledge retrieval
+  - [ConvertAPI](https://www.convertapi.com/) – for document conversion
+  - [Eleven Labs](https://elevenlabs.io/) – for text-to-speech
+  - [Ollama](https://ollama.ai/) – for running local models
 
-### 1. Fork or Clone the Repository
+## ⚙️ Installation Guide
+
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/yourusername/personalized-learning-assistant.git
 cd personalized-learning-assistant
 ```
 
-Alternatively, fork the repository and clone your fork.
+### 2. Activate the Virtual Environment
 
-### 2. Install Requirements
+```bash
+# Windows
+venv\Scripts\activate
+
+# macOS/Linux
+source venv/bin/activate
+```
+
+Or manually install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Set Up Local Models with Ollama
+### 3. Load LLMs with Ollama
 
-Ensure you have the following models downloaded:
-- LLaMA 3.2
-- Gemma
-
-To download these models with Ollama:
+Download the required models:
 
 ```bash
 ollama pull llama3.2
 ollama pull gemma
 ```
 
-### 4. Configure API Keys
+### 4. Set API Keys
 
-Create a `.env` file in the project root directory with the following content:
+Edit the `.env` file with your credentials:
 
 ```
 EXA_API_KEY=your_exa_api_key
@@ -92,39 +97,33 @@ CONVERTAPI_SECRET=your_convertapi_secret
 ELEVEN_LABS_API_KEY=your_eleven_labs_api_key
 ```
 
-Replace the placeholder values with your actual API keys.
+## 🚀 Running the App
 
-## Usage
-
-Start the application with:
+Start the Streamlit application:
 
 ```bash
 streamlit run app.py
 ```
 
-The application will be available at `http://localhost:8501` by default.
+Visit `http://localhost:8501` in your browser.
 
-## Features
+## ✨ Features
 
-- **Document Processing**: Upload and analyze educational materials in PDF or text format
-- **Intelligent Summarization**: Generate concise summaries using GEMMA model
-- **Question Generation**: Create relevant practice questions using LLaMA 3.2
-- **Voice Interaction**: Engage with content through natural speech using Eleven Labs
-- **Knowledge Retrieval**: Access up-to-date information from the web via Exa
-- **Local AI Processing**: Utilize powerful LLMs on your machine for privacy and performance
+- 📄 **PDF/Text Upload**: Process your documents with ease  
+- ✍️ **Smart Summarization**: Use GEMMA to condense content  
+- ❓ **Question Generation**: Get context-based Q&A from LLaMA 3.2  
+- 🗣️ **Voice Interaction**: Learn via natural speech (Eleven Labs)  
+- 🌐 **Web Knowledge Integration**: Enrich learning with Exa  
+- 🔐 **Local AI Execution**: Keeps data private and fast  
 
-## Contributing
+## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We welcome contributions of all kinds! Feel free to open issues or submit pull requests.
 
-## License
+## 🙏 Acknowledgements
 
-[Insert your license information here]
-
-## Acknowledgements
-
-- LLaMA 3.2 and Gemma model developers
-- Eleven Labs for voice synthesis technology
-- Exa for knowledge retrieval capabilities
-- ConvertAPI for document processing
-- Streamlit for the web application framework
+- Meta (LLaMA 3.2) and Google (Gemma) for the models  
+- Eleven Labs for voice synthesis  
+- Exa for real-time search capabilities  
+- ConvertAPI for PDF handling  
+- Streamlit for building the interactive interface
