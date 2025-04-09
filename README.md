@@ -42,3 +42,13 @@ SQuAD v1.1 is a widely used benchmark dataset for evaluating machine learning mo
 * Model: Google Gemma 2.0 2B params
 
 * Prompt: Prompt for generating concise summary from the given text
+
+### Evaluation
+
+* Questions: **BERTScore** that matches words in candidate and reference sentences by cosine similarity. It leverages the pre-trained contextual embeddings from BERT models and computes precision, recall, and F1 measure
+
+* Summary: **ROUGE_score** is used for evaluating automatic summarization and machine translation software in natural language processing. Here we have utilized unigram, bigram, and lsongest common subsequence based scoring.
+
+### Text to speech
+
+Integrated the Elevenlabs API to convert the generated summary to audio. The audio is generated in a short time (few seconds) and gives quality output.
