@@ -58,7 +58,7 @@ Make sure the following are set up before you begin:
 This application can be run by anyone with the following hardware specifications:
 
 - Memory: 8 GB or higher
-- Cores: 4 or more (for Mac)
+- Cores: 4 or more
 
 ## ⚙️ Installation Guide
 
