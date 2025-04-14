@@ -21,7 +21,7 @@ Creating high-quality study materials takes time and effort. This assistant aims
 
 The system uses a structured pipeline to deliver accurate summaries and questions, utilizing:
 
-- **GEMMA** for summarization  
+- **GEMMA 2** for summarization  
 - **LLaMA 3.2** for generating context-based questions  
 
 ### Step-by-Step Process
@@ -31,7 +31,7 @@ The system uses a structured pipeline to deliver accurate summaries and question
    - Apply NLP techniques to clean and tokenize text
 
 2. **Model Pipeline**
-   - **Summarization (GEMMA)**: Produces concise summaries
+   - **Summarization (GEMMA 2)**: Produces concise summaries
    - **Question Generation (LLaMA 3.2)**: Creates relevant questions and answers based on context
 
 3. **Evaluation**
@@ -53,6 +53,13 @@ Make sure the following are set up before you begin:
   - [Eleven Labs](https://elevenlabs.io/) – for text-to-speech
   - [Ollama](https://ollama.ai/) – for running local models
 
+### Hardware Requirements
+
+This application can be run by anyone with the following hardware specifications:
+
+- Memory: 8 GB or higher
+- Cores: 4 or more (for Mac)
+
 ## ⚙️ Installation Guide
 
 ### 1. Clone the Repository
@@ -72,7 +79,7 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-Or manually install dependencies:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
