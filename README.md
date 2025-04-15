@@ -44,3 +44,10 @@ March 10 2025, Iteration 3 submission:
 6. Number of questions to generate was hard coded to 5. Changed it.
    
 7. Added a text box for input along with PDF file. Text box will disable if a file is uploaded.
+
+
+April 14 2025, Final submission:
+
+8. Added final report
+   
+9. Added final presentation
